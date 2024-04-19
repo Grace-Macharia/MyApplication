@@ -11,6 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.theme.screens.about.AboutScreen
 import com.example.myapplication.ui.theme.screens.home.HomeScreen
 import com.example.myapplication.ui.theme.screens.login.LoginScreen
+import com.example.myapplication.ui.theme.screens.products.AddProductScreen
+import com.example.myapplication.ui.theme.screens.products.UpdateProductScreen
+import com.example.myapplication.ui.theme.screens.products.ViewProductScreen
 import com.example.myapplication.ui.theme.screens.register.RegisterScreen
 
 @Composable
@@ -32,11 +35,15 @@ fun AppNavHost(modifier: Modifier,
             RegisterScreen(navController)
         }
         composable(ROUTE_ADD_PRODUCT){
-            RegisterScreen(navController)
+            AddProductScreen(navController)
         }
         composable(ROUTE_VIEW_PRODUCT){
-            RegisterScreen(navController)
+            ViewProductScreen(navController)
         }
+        composable(ROUTE_UPDATE_PRODUCT+ "/{id}"){passedData ->
+            UpdateProductScreen(navController,passedData.arguments?.getString("id")!!)
+        }
+
     }
 
 }

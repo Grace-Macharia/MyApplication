@@ -1,7 +1,9 @@
 package com.example.myapplication.ui.theme.screens.products
 
+
+
+
 import android.content.res.Configuration
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,38 +34,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.data.ProductViewModel
-import com.example.myapplication.models.Product
+import com.example.myapplication.navigation.ROUTE_HOME
 import com.example.myapplication.navigation.ROUTE_VIEW_PRODUCT
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+
+
+//import com.example.firebaseauth.data.productviewmodel
+//import com.example.firebaseauth.navigation.ROUTE_VIEW_PRODUCT
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateProductScreen(navController: NavHostController,id:String) {
+fun AddProductScreen(navController: NavHostController) {
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally) {
         var context = LocalContext.current
-        var name by remember { mutableStateOf("") }
-        var quantity by remember { mutableStateOf("") }
-        var price by remember { mutableStateOf("") }
-
-        var currentDataRef = FirebaseDatabase.getInstance().getReference()
-            .child("Products/$id")
-        currentDataRef.addValueEventListener(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var product = snapshot.getValue(Product::class.java)
-                name = product!!.name
-                quantity = product!!.quantity
-                price = product!!.price
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
-            }
-        })
-
         Text(
             text = "Add product",
             fontSize = 30.sp,
@@ -74,9 +57,9 @@ fun UpdateProductScreen(navController: NavHostController,id:String) {
             textDecoration = TextDecoration.Underline
         )
 
-        var productName by remember { mutableStateOf(TextFieldValue(name)) }
-        var productQuantity by remember { mutableStateOf(TextFieldValue(quantity)) }
-        var productPrice by remember { mutableStateOf(TextFieldValue(price)) }
+        var productName by remember { mutableStateOf(TextFieldValue("")) }
+        var productQuantity by remember { mutableStateOf(TextFieldValue("")) }
+        var productPrice by remember { mutableStateOf(TextFieldValue("")) }
 
         OutlinedTextField(
             value = productName,
@@ -106,22 +89,24 @@ fun UpdateProductScreen(navController: NavHostController,id:String) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(onClick = {
-            //-----------WRITE THE UPDATE LOGIC HERE---------------//
-            var productRepository = ProductViewModel(navController, context)
-            productRepository.updateProduct(productName.text.trim(),productQuantity.text.trim(),
-                productPrice.text.trim(),id)
+
+            val productRepository = ProductViewModel(navController,context)
+            productRepository.saveProduct(productName.text.trim(),productQuantity.text.trim(),
+                productPrice.text)
             navController.navigate(ROUTE_VIEW_PRODUCT)
 
 
         }) {
-            Text(text = "Update")
+            Text(text = "Save")
         }
 
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun UpdateProductScreenPreview() {
-    UpdateProductScreen(rememberNavController(), id = "")
+fun AddProductScreenPreview() {
+    AddProductScreen(rememberNavController())
+
 }
+

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.data.AuthViewModel
 import com.example.myapplication.navigation.ROUTE_HOME
 import com.example.myapplication.navigation.ROUTE_LOGIN
 import com.example.myapplication.navigation.ROUTE_REGISTER
@@ -45,7 +46,7 @@ fun LoginScreen(navController: NavController){
     var context = LocalContext.current
     Column (modifier = Modifier
         .fillMaxSize()
-        .background(Color.Blue),
+        .background(Color.Gray),
         horizontalAlignment = Alignment.CenterHorizontally){
         Text(text = "LOGIN HERE",
             color = Color.Blue,
@@ -53,7 +54,6 @@ fun LoginScreen(navController: NavController){
             fontFamily = FontFamily.Cursive,
             fontSize = 30.sp)
         Spacer(modifier = Modifier.height(20.dp))
-
         OutlinedTextField(value = email, onValueChange = {email=it},
             label = { Text(text = "Enter Email")},
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
@@ -68,8 +68,10 @@ fun LoginScreen(navController: NavController){
                 .fillMaxWidth()
                 .padding(8.dp))
         Spacer(modifier = Modifier.height(20.dp))
-        Button(onClick = { },
-            modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = {
+                         val mylogin= AuthViewModel(navController, context )
+            mylogin.login(email.text.trim(),pass.text.trim())
+        }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Login")
         }
         Spacer(modifier = Modifier.height(20.dp))

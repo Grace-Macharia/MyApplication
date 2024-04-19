@@ -2,6 +2,7 @@ package com.example.myapplication.ui.theme.screens.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -35,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.R
 import com.example.myapplication.data.AuthViewModel
 import com.example.myapplication.navigation.ROUTE_HOME
 import com.example.myapplication.navigation.ROUTE_LOGIN
@@ -51,7 +54,7 @@ fun RegisterScreen(navController: NavController){
     var context = LocalContext.current
     Column (modifier = Modifier
         .fillMaxSize()
-        .background(Color.Blue),
+        .background(Color.Gray),
         horizontalAlignment = Alignment.CenterHorizontally){
         Text(text = "Register Here",
             color = Color.Cyan,
@@ -83,7 +86,7 @@ fun RegisterScreen(navController: NavController){
         )
         Spacer(modifier = Modifier.height(20.dp))
         Button(onClick = {
-                         val myregister= AuthViewModel(navController,context)
+            val myregister= AuthViewModel(navController,context)
             myregister.signup(email.text.trim(),pass.text.trim(),confirmpass.text.trim())
             navController.navigate(ROUTE_HOME)
         }, modifier = Modifier.fillMaxWidth()) {
@@ -96,6 +99,7 @@ fun RegisterScreen(navController: NavController){
 
 
     }
+
 
 }
 @Preview(showSystemUi = true, showBackground = true)
